@@ -26,6 +26,7 @@ public enum ErrorStatus implements BaseErrorCode {
     private final String message;
 
 
+
     @Override
     public ErrorReasonDTO getReasonHttpStatus() {
         return ErrorReasonDTO.builder()
