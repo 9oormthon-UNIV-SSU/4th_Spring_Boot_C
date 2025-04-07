@@ -16,7 +16,7 @@ public class SwaggerConfig {
     public OpenAPI stewAPI() {
         Info info = new Info()
                 .title("구름톤 당근 마켓 API")
-                .description("당근 맡켓 API 명세서")
+                .description("당근 마켓 API 명세서")
                 .version("1.0.0");
 
         String jwtSchemeName = "JWT TOKEN";
