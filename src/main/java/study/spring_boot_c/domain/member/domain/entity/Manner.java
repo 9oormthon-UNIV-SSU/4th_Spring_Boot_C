@@ -19,11 +19,11 @@ public class Manner extends BaseEntity {
     private int score;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "evaluatee_id", nullable = false)
     private Member evaluatee;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "evaluator_id", nullable = false)
     private Member evaluator;
 
 }
