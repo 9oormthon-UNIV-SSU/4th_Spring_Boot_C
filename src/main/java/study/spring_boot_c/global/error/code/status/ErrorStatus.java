@@ -16,9 +16,13 @@ public enum ErrorStatus implements BaseErrorCode {
     _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
 
     //Member
-    NO_SUCH_MEMBER(HttpStatus.BAD_REQUEST, "MEMBER_4001","멤버가 존재하지 않습니다.")
+    NO_SUCH_MEMBER(HttpStatus.BAD_REQUEST, "MEMBER_4001","멤버가 존재하지 않습니다."),
 
+    //DB
+    DB_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DB_5001", "데이터베이스 오류가 발생했습니다."),
 
+    //Redis
+    REDIS_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "REDIS_5001", "Redis 서버 오류가 발생했습니다.")
     ;
 
     private final HttpStatus httpStatus;

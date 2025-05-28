@@ -13,7 +13,10 @@ public enum SuccessStatus implements BaseCode {
     _CREATED(HttpStatus.CREATED, "COMMON201", "요청 성공 및 리소스 생성됨"),
 
     //member
-    MEMBER_EXAMPLE_SUCCESS(HttpStatus.OK,"MEMBER_200","성공적으로 조회되었습니다.")
+    MEMBER_EXAMPLE_SUCCESS(HttpStatus.OK,"MEMBER_200","성공적으로 조회되었습니다."),
+
+    //chat
+    CHAT_SEND_SUCCESS(HttpStatus.OK,"CHAT_200","성공적으로 처리되었습니다.")
 
     ;
 
