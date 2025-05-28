@@ -19,4 +19,14 @@ public class ChatMessageDTO {
         private String message;
         private LocalDateTime timestamp;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RoomMessage {
+        private Long senderId;
+        private String message;
+        private LocalDateTime timestamp;
+    }
 }

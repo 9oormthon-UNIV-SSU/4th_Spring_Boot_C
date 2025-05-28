@@ -17,4 +17,12 @@ public class ChatMessageConverter {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
+
+    public static ChatMessageDTO.RoomMessage toRoomMessages(ChatMessage entity) {
+        return ChatMessageDTO.RoomMessage.builder()
+                .senderId(entity.getSenderId())
+                .message(entity.getMessage())
+                .timestamp(entity.getTimestamp())
+                .build();
+    }
 }
