@@ -22,11 +22,11 @@ public class SaleReview extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "reviewer_id", nullable = false)
     private Member reviewer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "reviewee_id", nullable = false)
     private Member reviewee;
 
     @ManyToOne(fetch = FetchType.LAZY)
