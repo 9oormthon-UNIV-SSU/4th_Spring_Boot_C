@@ -1,5 +1,7 @@
 server:
     port: 8081 # keycloak 포트 중복 방지
+jwt:
+  secret: CP0Oh00OmjMG532dH7NK53mC6wcmNOhkoBTesOTdrKjproykQHZ0CD8pPbjEZuGn2lA3c6vOhhtlnqho4m4YbCJjk8A9dsVrw7nLdwkXjGZEaQULA8uEoIIrs0RWg73cA9S4KdASjw1KuF5YIxY4Ys0Vzcwg5lROe2lfVKMBmjOerYbwvqNk1YBoj0COqAp8epHzUBCkNwU7ZXtyvicgv7VN6E3XDGMVfEtXEZkZWxVrEMAwwUEPV137QvoilGGcsVtx0kWtMZ1L1LPC7YuO9LZKCfQnksjti7r40mEV1AwaewtfeAiY3e2QHbYYNaO1Ihg3UaX1nuyRqfsWw2N3JJFCE1W77TYucX1AQBqKpUFGJWuUAQ01niokej8pBqYNFInQ1L7XpMxwJ3xzhXJ0lYo1GD1nBPP7de7T437fhV6aMIrYmSS9r1kkPtNcuP40hZN7w9OeDwrCJRNAe3qCp16VdOlLBIVQ5VA2S11M2XY13TctlnwQjJnB4cH1x5ro
 
 spring:
   application:
@@ -28,11 +30,12 @@ spring:
             clientSecret: V56e2Pg2dLRImAQ3AdFdRsQlUm4H3Lcw
             clientName: oauth2-client-app
             authorizationGrantType: password
-            scope: openid,profile
+            scope: email, openid
             clientAuthenticationMethod: client_secret_basic
-            redirectUri: http://localhost:8081/login/oauth2/code/keycloak
+#            redirectUri: http://localhost:8081/login/oauth2/code/keycloak
+            redirectUri: http://localhost:8081/oauth2Login
             provider: keycloak
-          
+
         provider:
           keycloak:
             issuerUri: http://localhost:8080/realms/oauth2
