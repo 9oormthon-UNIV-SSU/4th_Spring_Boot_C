@@ -1,5 +1,6 @@
 package study.spring_boot_c.global.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -11,8 +12,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import study.spring_boot_c.domain.member.domain.repository.MemberRepository;
+import study.spring_boot_c.global.filter.CustomOAuth2AuthenticationFilter;
+import study.spring_boot_c.global.jwt.JwtTokenProvider;
 
 @EnableWebSecurity
 @Configuration
@@ -21,8 +28,20 @@ public class SecurityConfig {
     /*
         Swagger 접속을 위한 위한 Spring Security 입니다.
      */
-    @Bean
-    @Order(1)
+    @Autowired
+    private DefaultOAuth2AuthorizedClientManager authorizedClientManager;
+
+    @Autowired
+    private OAuth2AuthorizedClientRepository authorizedClientRepository;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+//    @Bean
+//    @Order(1)
     public SecurityFilterChain swaggerFilterChain(HttpSecurity http) throws Exception {
         http.securityMatcher("/swagger-ui/**")
                 .authorizeHttpRequests(
@@ -40,14 +59,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(2)
+//    @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize.anyRequest()
-                .permitAll())
+        http.authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/oauth2Login/**", "/", "/error")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
                 .csrf(
-                        csrf -> csrf.disable())
-                .formLogin(Customizer.withDefaults()); // 임시 테스트 용으로, 일단 swagger 제외한 모든 api 제한없이 접근 가능
-
+                        csrf -> csrf.disable());
+//                .formLogin(Customizer.withDefaults()); // 임시 테스트 용으로, 일단 swagger 제외한 모든 api 제한없이 접근 가능
+        http.oauth2Client(Customizer.withDefaults());
+        http.addFilterBefore(customOAuth2AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -71,5 +94,22 @@ public class SecurityConfig {
         return RoleHierarchyImpl.fromHierarchy(
                 "ROLE_ADMIN > ROLE_USER"
         );
+    }
+
+    private CustomOAuth2AuthenticationFilter customOAuth2AuthenticationFilter() {
+        CustomOAuth2AuthenticationFilter customOAuth2AuthenticationFilter = new CustomOAuth2AuthenticationFilter(authorizedClientManager, authorizedClientRepository
+        , jwtTokenProvider, memberRepository);
+        customOAuth2AuthenticationFilter.setAuthenticationSuccessHandler(
+                        ((request, response, authentication) ->
+                {
+                    String authorization = (String)request.getAttribute("Authorization");
+                    String refresh = (String)request.getAttribute("RefreshToken");
+                    response.sendRedirect("/home?access="+authorization+"&refresh="+refresh);
+                }
+        )
+
+        );
+        return customOAuth2AuthenticationFilter;
+
     }
 }
