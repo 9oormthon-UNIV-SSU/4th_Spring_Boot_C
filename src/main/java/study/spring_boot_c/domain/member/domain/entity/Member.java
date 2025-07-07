@@ -26,4 +26,6 @@ public class Member extends BaseEntity {
 
     private double manner;
 
+    private String email;
+
 }
