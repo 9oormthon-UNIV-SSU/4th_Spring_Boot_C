@@ -76,8 +76,8 @@ public class CustomOAuth2AuthenticationFilter extends AbstractAuthenticationProc
 
             OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) principal;
             String email = (String)token.getPrincipal().getAttribute("email");
-            Optional<Member> memberOptional = memberRepository.findByEmail(email);
-            if (memberOptional.isPresent()) {
+//            Optional<Member> memberOptional = memberRepository.findByEmail(email);
+//            if (memberOptional.isPresent()) {
                 String accessToken = jwtTokenProvider.generateAccessToken(email);
                 String refreshToken = jwtTokenProvider.generateRefreshToken(email);
                 httpServletRequest.setAttribute("Authorization", "Bearer " + accessToken);
@@ -85,11 +85,11 @@ public class CustomOAuth2AuthenticationFilter extends AbstractAuthenticationProc
 
 //                httpServletResponse.setHeader("Authorization", "Bearer " + accessToken);
 //                httpServletResponse.setHeader("RefreshToken", refreshToken);
-            }
-            else {
+//            }
+//            else {
                 //자동 회원가입 처리를 하거나, 부가적으로 입력받을 수 있도록 하거나...
                 return;
-            }
+//            }
 
         };
 
